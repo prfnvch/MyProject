@@ -1,0 +1,18 @@
+.DS_Store
+
+# Django
+**/__pycache__/
+**/migrations/
+*.log
+*.pyc
+*.pot
+
+#idea
+.idea
+
+#.env
+.env
+**/env/
+**/venv/
+
+cache/

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">Sign Up</h1>
+      </div>
+
+      <div class="container">
+        {% if user_form.errors %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error!</strong>{{ user_form.errors }}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form class="form-group" method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control rounded-3" id="username" placeholder="Username" name="username"
+              value="{{ user_form.username.value }}">
+            <label for="username">Username</label>
+          </div>
+
+          {{ user_form.password }}
+
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control rounded-3" id="email" placeholder="example@example.com" name="email"
+              value="{{ user_form.email.value }}">
+            <label for="email">Email</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-3" id="password1" placeholder="Password" name="password1"
+              value="{{ user_form.password1.value }}">
+            <label for="password1">Password</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-3" id="password2" placeholder="Password" name="password2"
+              value="{{ user_form.password2.value }}">
+            <label for="password2">Password</label>
+          </div>
+
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" name="signup">Sign Up</button>
+          <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+          <hr class="my-4">
+          <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
+          <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
+            <svg class="bi me-1" width="16" height="16"><use xlink:href="#twitter"></use></svg>
+            Sign up with Twitter
+          </button>
+          <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
+            <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"></use></svg>
+            Sign up with Facebook
+          </button>
+          <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
+            <svg class="bi me-1" width="16" height="16"><use xlink:href="#github"></use></svg>
+            Sign up with GitHub
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block header %}
+<header class="bg-dark">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">MyManga</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Read manga or whatever u want</p>
+        </div>
+    </div>
+</header>
+{% endblock header %}

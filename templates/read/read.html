@@ -1,0 +1,167 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>MyManga</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      </head>
+    <body class="d-flex flex-column min-vh-100 bg-dark">
+
+      <main class="container">
+        <div class="p-4 p-md-5 mb-4 rounded text-white bg-black container position-fixed">
+          <div class="position-relative align-items-center">
+            {% if chapter.number > 0 %}
+            <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.get_previous_chapter_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
+            {% else %}
+            <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
+            {% endif %}
+            <div class="position-absolute top-50 translate-middle-y" style="margin-left: 10%;"><a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Back</a></div>
+            <div class="position-absolute top-50 start-50 translate-middle dropdown"><h3 class="display fw-bolder">{{ chapter.manga.title }}</h3></div>
+            <div class="position-absolute top-50 end-0 translate-middle-y" style="margin-right: 14%; margin-top: 0.5%">
+              <form action="{{ manga.get_follow_url }}" style="max-width: 35%; margin-top: 5%;" method="POST">
+                {% csrf_token %}
+                {% if user in manga.bookmarks.all %}
+                <button type="submit" class="btn btn-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                    </svg>
+                </button>
+                {% else %}
+                <button type="submit" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                    </svg>
+                </button>
+                {% endif %}
+              </form>
+            </div>
+            <div class="position-absolute top-50 translate-middle-y" style="margin-left: 88.5%;">
+              <a href="#" class="btn btn-outline-light mt-auto dropdown-toggle" role="button" data-bs-toggle="dropdown">{{chapter.number}}</a>
+              <ul class="dropdown-menu element styled-scrollbars" style="height: 120px; overflow-y: scroll;">
+                {% for chapter in chapters %}
+                <li><a class="dropdown-item" href="{{ chapter.get_chapter_url }}">{{ chapter.number }} : {{ chapter.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="position-absolute top-50 end-0 translate-middle-y">
+              {% if latest == false %}
+              <a href="{{ chapter.get_next_chapter_url }}" class="btn btn-outline-light mt-auto">Next</a>
+              {% else %}
+              <a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Next</a>      
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div style="margin-left: 20%;">
+            {% for image in images %}
+              <img class="center" src="{{ image.chapter_image.url }}" />
+            {% endfor %}
+          </div>
+        </div>
+        
+        </div>
+        </div>
+    
+      </main>
+    
+      <div class="bg-black">
+        <div class="post-wrap-message1">
+          <div class="d-flex gap-3 py-2">
+            {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" class="rounded-circle avatar_commentator">
+            {% else %}
+            <img src="{% static 'assets/avatar-placeholder.jpeg' %}" class="rounded-circle avatar_commentator">
+            {% endif %}
+              <div class="form-floating col" style="Padding: 0px">
+                <form action="{% url 'comment-ch-create' %}" method="POST">
+                  {% csrf_token %}
+                  <input hidden name="chapter_id" value="{{ chapter.id }}">
+                  <textarea type="text" id="content" name="content" value="{{ form.content }}" class="form-control " placeholder="Add a comment.." maxlength=500 required></textarea>
+                  <div class="d-flex gap-2 justify-content-sm-end m-2">
+                      <input class="btn btn-outline-light btn-sm rounded-pill" type="reset" value="Reset" style="Padding: 2px 24px">
+                      <input class="btn btn-outline-light btn-sm rounded-pill" type="submit" value="Comment" style="Padding: 2px 24px">
+                  </div>
+                </form>
+              </div>
+          </div>
+
+          <h5 class="pb-2" id="comment_count">
+            {% if chapter.comment_count == 0 %}
+              no comments</h5>
+            {% endif %}
+            {% if chapter.comment_count == 1 %}
+              {{chapter.comment_count}} comment</h5>
+            {% endif %}
+            {% if chapter.comment_count > 1 %}
+              {{chapter.comment_count}} comments</h5>
+            {% endif %}
+        <div class="post-wrap-message1 text-white">
+            {% for comment in liked %}
+            <div class="d-flex gap-3 py-2 border-bottom">
+              <a href="{{ comment.user.get_user_url }}">
+                {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" class="rounded-circle avatar_commentator">
+                {% else %}
+                <img src="{% static 'assets/avatar-placeholder.jpeg' %}" class="rounded-circle avatar_commentator">
+                {% endif %}
+              <div class="flex-grow-1 justify-content-between">
+              <div class="post-header-info">
+                <a style="text-decoration: none" href="{{ comment.user.get_user_url }}" class="link-light">{{comment.user.username}}</a>&nbsp;
+                <p style="display: inline-block">{{ comment.created|timesince }} ago</p>
+                <div class="list-group-item ">
+                  <p style="text-align:justify; font-size:14px;margin:5px 0px 10px;color:white;">{{comment.content}}</p>
+                  <span class="position-absolute top-100 start-100 translate-middle rounded-pill btn-sm bg-light border border-1">
+                      <div class="d-flex justify-content-center align-items-center gap-1">
+                        <form action="{{comment.get_likecomment_url}}" method="post">
+                            <div class="likes">
+                            {% csrf_token %}
+                                <button type="submit" class="like-button">
+                                    {% if user not in comment.likes.all %}
+                                    <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    {% else %}
+                                    <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#EA4858" stroke="#EA4858" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    {% endif %}
+                                    </button>
+                                <div class="likes-count text-dark">{{comment.likes_count}}</div>
+                            </div>
+                        </form>
+                      </div>
+                  </span>
+                  </div>
+              </div>
+            </div>
+            </div>
+              {% comment %} <div class="d-flex align-items-end flex-column mb-3">
+                {% if user == comment.user or user == post.user %}
+                  <form action="{% url 'comment-delete' %}" method="post">
+                    {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
+                  <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                  {% endif %}
+                </div> {% endcomment %}
+        
+          {% endfor %}
+        </div>
+
+        </div> 
+      </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html>
