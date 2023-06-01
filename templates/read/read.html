@@ -72,17 +72,17 @@
       
         <div class="row">
           {% if chapter.manga.type != "Manga" %}
-          <div style="margin-left: 1%;">
+          <div id="over">
               {% for image in images %}
                 <img class="center" src="{{ image.chapter_image.url }}" />
               {% endfor %}
             </div>
             {% else %}
-              {% for image in images %}
-              <div class="">
-                <img class="center" src="{{ image.chapter_image.url }}" style="max-width: 900px; margin-left: 16%" />
+              <div id="over">
+                {% for image in images %}
+                <img src="{{ image.chapter_image.url }}" style="max-width: 900px" />
+                {% endfor %}
               </div>
-              {% endfor %}
             {% endif %}
           </div>
         </div>
