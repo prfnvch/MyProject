@@ -21,10 +21,14 @@
     <body class="d-flex flex-column min-vh-100 bg-dark">
 
       <main class="container">
-        <div class="p-4 p-md-5 mb-4 rounded text-white bg-black container position-fixed">
+        <div class="p-4 p-md-5 mb-4 rounded text-white bg-black container sticky-top">
           <div class="position-relative align-items-center">
             {% if chapter.number > 0 %}
-            <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.get_previous_chapter_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
+              {% if chapter.manga.type == "Manga" %}
+              <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
+              {% else %}
+              <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.get_previous_chapter_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
+              {% endif %}
             {% else %}
             <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
             {% endif %}
@@ -67,10 +71,19 @@
         </div>
       
         <div class="row">
-          <div style="margin-left: 20%;">
-            {% for image in images %}
-              <img class="center" src="{{ image.chapter_image.url }}" />
-            {% endfor %}
+          {% if chapter.manga.type != "Manga" %}
+          <div style="margin-left: 1%;">
+              {% for image in images %}
+                <img class="center" src="{{ image.chapter_image.url }}" />
+              {% endfor %}
+            </div>
+            {% else %}
+              {% for image in images %}
+              <div class="">
+                <img class="center" src="{{ image.chapter_image.url }}" style="max-width: 900px; margin-left: 16%" />
+              </div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
         

@@ -14,14 +14,14 @@ class CustomUserAdmin(UserAdmin):
     list_display = ("username", "email", "first_name", "last_name", "date_of_birth", "avatar", "city", "country", "bio", "instagram", "telegram", "is_staff", "is_active")
     list_filter = ("username", "email", "first_name", "last_name", "date_of_birth", "avatar", "city", "country", "bio", "instagram", "telegram", "is_staff", "is_active",)
     fieldsets = (
-        (None, {"fields": ("username", "email", "first_name", "last_name", "date_of_birth", "avatar", "bookmarks", "city", "country", "follows", "bio", "instagram", "telegram", "password")}),
+        (None, {"fields": ("username", "email", "first_name", "last_name", "date_of_birth", "avatar", "bookmarks", "city", "country", "bio", "instagram", "telegram", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
             "fields": (
-                "username", "email", "first_name", "last_name", "date_of_birth", "avatar", "bookmarks", "city", "country", "bio", "follows", "instagram", "telegram", "password1", "password2", "is_staff",
+                "username", "email", "first_name", "last_name", "date_of_birth", "avatar", "bookmarks", "city", "country", "bio", "instagram", "telegram", "password1", "password2", "is_staff",
                 "is_active"
             )}
         ),

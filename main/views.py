@@ -41,7 +41,7 @@ class EntireView(TemplateView):
     
     def get(self, request):
         mangas = Manga.objects.all().order_by('-created')
-        liked = sorted(mangas, key=lambda manga: manga.likes_count(), reverse=True)
+        liked = sorted(mangas, key=lambda manga: manga.rating_count(), reverse=True)
         other_user = User.objects.all()
         genres = Genre.objects.all()
 
@@ -260,7 +260,7 @@ class FilterView(TemplateView):
                         manga_by_age = Manga.objects.filter(age_restriction__iregex=filtering)
                         manga_by_genre = Manga.objects.filter(genre__name__iregex=filtering)
                         manga_of_loop = manga_by_status.union(manga_by_type, manga_by_age, manga_by_genre)
-                        manga_by_all = manga_by_all.union(manga_of_loop)
+                        manga_by_all = manga_by_all.intersection(manga_of_loop)
 
             params = {
                 'liked': manga_by_all,
@@ -302,7 +302,7 @@ class MangaFilterView(TemplateView):
                         manga_by_age = Manga.objects.filter(Q(type="Manga") & Q(age_restriction__iregex=filtering))
                         manga_by_genre = Manga.objects.filter(Q(type="Manga") & Q(genre__name__iregex=filtering))
                         manga_of_loop = manga_by_status.union(manga_by_age, manga_by_genre)
-                        manga_by_all = manga_by_all.union(manga_of_loop)
+                        manga_by_all = manga_by_all.intersection(manga_of_loop)
 
             params = {
                 'mangas': manga_by_all,
@@ -342,7 +342,7 @@ class ManhwaFilterView(TemplateView):
                         manga_by_age = Manga.objects.filter(Q(type="Manhwa") & Q(age_restriction__iregex=filtering))
                         manga_by_genre = Manga.objects.filter(Q(type="Manhwa") & Q(genre__name__iregex=filtering))
                         manga_of_loop = manga_by_status.union(manga_by_age, manga_by_genre)
-                        manga_by_all = manga_by_all.union(manga_of_loop)
+                        manga_by_all = manga_by_all.intersection(manga_of_loop)
 
             params = {
                 'manhwas': manga_by_all,
@@ -382,7 +382,7 @@ class ManhuaFilterView(TemplateView):
                         manga_by_age = Manga.objects.filter(Q(type="Manhua") & Q(age_restriction__iregex=filtering))
                         manga_by_genre = Manga.objects.filter(Q(type="Manhua") & Q(genre__name__iregex=filtering))
                         manga_of_loop = manga_by_status.union(manga_by_age, manga_by_genre)
-                        manga_by_all = manga_by_all.union(manga_of_loop)
+                        manga_by_all = manga_by_all.intersection(manga_of_loop)
 
             params = {
                 'manhuas': manga_by_all,

@@ -6,6 +6,7 @@
     <div class="p-4 p-md-5 mb-4 rounded text-bg-dark container" style="display: table;">
       <div class="col-md-6 px-0" style="float: left;">
         <h1 class="display-4 fst-italic">{{ manga.title }}</h1>
+        <h5>{{ manga.get_date }}</h5>
         <details open>
           <summary class="lead my-3">Description</summary>
           {{ manga.description }}
@@ -68,6 +69,10 @@
 
         <div>
           <h4 class="fst-italic">Status: {{ manga.status }}</h4>
+        </div>
+
+        <div>
+          <h4 class="fst-italic">Language: {{ manga.language }}</h4>
         </div>
 
       </div>

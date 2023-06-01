@@ -4,7 +4,6 @@ from django.urls import reverse
 from accounts.models import User
 from django.db.models import Avg, Count
 
-
 def manga_image_upload_path(instance, filename):
     return f"mangas/{instance.chapter.manga.title}/{instance.chapter.number}/{filename}"
 
@@ -45,6 +44,7 @@ class Manga(models.Model):
     created = models.DateField(null=True, blank=True)
     status = models.TextField(null=True, blank=True)
     age_restriction = models.TextField(null=True, blank=True)
+    language = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -71,6 +71,9 @@ class Manga(models.Model):
         default_genres = Genre.objects.all()
         genres = list(default_genres)
         return genres
+    
+    def get_date(self):
+        return self.created.strftime("%Y")
 
 
     getGenre.short_description = "Genre"
