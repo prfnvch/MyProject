@@ -39,8 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def follows_count(self):
         return len(self.bookmarks.all())
     
-    def get_follow_url(self):
-        return reverse("manga-follow", args=[self.id])
+    def get_bookmarks(self):
+        return self.bookmarks.all()
 
 
 

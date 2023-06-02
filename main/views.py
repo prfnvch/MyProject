@@ -162,7 +162,7 @@ class UserView(TemplateView):
 
     def get(self, request, id):
         user = User.objects.get(id=id)
-        bookmarks = request.user.bookmarks.all().order_by('-created')
+        bookmarks = user.bookmarks.all().order_by('-created')
         
         params = {
             'other_user': user,
@@ -178,14 +178,10 @@ class FollowToMangaView(View):
     def post(self, request, id):
         new_follow = Manga.objects.get(id=id)
         follows = request.user.bookmarks.all()
-        current_manga = Manga.objects.get(id=id)
-        follows = [user for user in current_manga.bookmarks.all()]
 
-        if request.user not in follows and new_follow not in follows and new_follow != request.user:
-            current_manga.bookmarks.add(request.user)
+        if new_follow not in follows and new_follow != request.user:
             request.user.bookmarks.add(new_follow)
         else:
-            current_manga.bookmarks.remove(request.user)
             request.user.bookmarks.remove(new_follow)
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

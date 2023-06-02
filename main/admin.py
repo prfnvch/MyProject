@@ -4,7 +4,7 @@ from .models import Author, ChapterComment, Genre, Manga, Chapter, MangaChapter,
 
 @admin.register(Manga)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ("title", "type", "description", "publication_date", "author", "getGenre", "image", "get_bookmarks", "created", "status", "age_restriction")
+    list_display = ("title", "type", "description", "publication_date", "author", "getGenre", "image", "created", "status", "age_restriction")
 
 
 @admin.register(Rating)

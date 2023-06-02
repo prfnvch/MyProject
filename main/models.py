@@ -40,7 +40,6 @@ class Manga(models.Model):
     image = models.ImageField(upload_to="mangas/covers/", blank=True, default="book-placeholder.jpeg")
     genre = models.ManyToManyField(Genre)
     author = models.ForeignKey(Author, on_delete=models.PROTECT, null=True, related_name="books")
-    bookmarks = models.ManyToManyField(User, blank=True, related_name="users")
     created = models.DateField(null=True, blank=True)
     status = models.TextField(null=True, blank=True)
     age_restriction = models.TextField(null=True, blank=True)
@@ -63,9 +62,6 @@ class Manga(models.Model):
     
     def likes_count(self):
         return len(self.likes.all())
-    
-    def get_bookmarks(self):
-        return len(self.bookmarks.all())
     
     def get_all_genres(self):
         default_genres = Genre.objects.all()
