@@ -24,6 +24,7 @@ class MainView(TemplateView):
         manga_liked = sorted(manga_comments, key=lambda comment: comment.likes_count(), reverse=True)[:5]
         chapter_comments = ChapterComment.objects.all()
         chapter_liked = sorted(chapter_comments, key=lambda comment: comment.likes_count(), reverse=True)[:5]
+        newest = Manga.objects.all().order_by('-publication_date')
 
         params = {
             'mangas': mangas,
@@ -31,6 +32,7 @@ class MainView(TemplateView):
             'other_user': other_user,
             'manga_liked': manga_liked,
             'chapter_liked': chapter_liked,
+            'newest': newest
         }
         
         return render(request, self.template_name, params)
