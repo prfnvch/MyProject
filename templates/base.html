@@ -120,8 +120,12 @@
                   <label class="p-1">
                     <a href="{% url 'password_reset' %}">Forgot password?</a>
                   </label>
+
+                  <label class="p-1">
+                    <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#modalSignup">or Signup</a>
+                  </label>
         
-                  <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Log In</button>
+                  <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" style="margin-top: 5%;" type="submit">Log In</button>
                 </form>
               </div>
             </div>
@@ -172,8 +176,12 @@
                       value="{{ user_form.password2.value }}">
                     <label for="password2">Password</label>
                   </div>
+
+                  <label class="p-1">
+                    <a href="#" class="p-1" data-bs-toggle="modal" data-bs-target="#modalLogin">or Login</a>
+                  </label>
         
-                  <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" name="signup">Sign Up</button> 
+                  <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" style="margin-top: 5%;" type="submit" name="signup">Sign Up</button> 
                 </form>
               </div>
             </div>
