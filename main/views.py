@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, DeleteView
 from accounts.forms import UserRegistrationForm
 from .models import ChapterComment, Genre, Manga, MangaChapter, Chapter, MangaComment, Rating
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 from .forms import MangaCommentForm, ChapterCommentForm
 from django.db.models import Q
+from itertools import chain
 User = get_user_model()
 
 
@@ -24,7 +25,7 @@ class MainView(TemplateView):
         manga_liked = sorted(manga_comments, key=lambda comment: comment.likes_count(), reverse=True)[:5]
         chapter_comments = ChapterComment.objects.all()
         chapter_liked = sorted(chapter_comments, key=lambda comment: comment.likes_count(), reverse=True)[:5]
-        newest = Manga.objects.all().order_by('-publication_date')
+        newest = Manga.objects.all().order_by('-publication_date')[:10]
 
         params = {
             'mangas': mangas,
@@ -168,13 +169,34 @@ class UserView(TemplateView):
     def get(self, request, id):
         user = User.objects.get(id=id)
         bookmarks = user.bookmarks.all().order_by('-created')
+        manga_comments = MangaComment.objects.all()
+        chapter_comments = ChapterComment.objects.all()
+        comments = chain(manga_comments, chapter_comments)
         
         params = {
             'other_user': user,
             'bookmarks': bookmarks,
+            'comments': comments,
         }
 
         return render(request, self.template_name, params)
+    
+
+class DeleteMangaCommentView(DeleteView):
+    @method_decorator(login_required)
+    def post(self, request):
+        manga_comment = MangaComment.objects.get(id=request.POST['comment_id'])
+        if request.user == manga_comment.user:
+            manga_comment.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+class DeleteChapterCommentView(DeleteView):
+    @method_decorator(login_required)
+    def post(self, request):
+        chapter_comment = ChapterComment.objects.get(id=request.POST['comment_id'])
+        if request.user == chapter_comment.user:
+            chapter_comment.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class FollowToMangaView(View):

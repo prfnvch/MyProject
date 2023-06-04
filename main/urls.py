@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import CreateChapterComment, CreateMangaComment, FilterView, LikeChapterComment, LikeMangaComment, MainView, MangaFilterView, ManhuaFilterView, ManhwaFilterView, SignUpView, UserView, FollowToMangaView, ManhwaListView, ManhuaListView, MangaListView, EntireView, MangaDetailView, ChapterView, SearchView
+from .views import CreateChapterComment, CreateMangaComment, DeleteMangaCommentView, DeleteChapterCommentView, FilterView, LikeChapterComment, LikeMangaComment, MainView, MangaFilterView, ManhuaFilterView, ManhwaFilterView, SignUpView, UserView, FollowToMangaView, ManhwaListView, ManhuaListView, MangaListView, EntireView, MangaDetailView, ChapterView, SearchView
 from . import views
 
 urlpatterns = [
@@ -24,4 +24,6 @@ urlpatterns = [
     path('manga-filter/', MangaFilterView.as_view(), name="manga-filter"),
     path('manhwa-filter/', ManhwaFilterView.as_view(), name="manhwa-filter"),
     path('manhua-filter/', ManhuaFilterView.as_view(), name="manhua-filter"),
+    path("delete_manga_comment/", DeleteMangaCommentView.as_view(), name='manga-comment-delete'),
+    path("delete_chapter_comment/", DeleteChapterCommentView.as_view(), name='chapter-comment-delete'),
 ]

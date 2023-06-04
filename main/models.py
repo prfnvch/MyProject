@@ -36,7 +36,7 @@ class Manga(models.Model):
     title = models.TextField()
     type = models.TextField(null=True)
     description = models.TextField()
-    publication_date = models.DateField(blank=True, null=True)
+    publication_date = models.DateTimeField(default=timezone.now, blank=True, null=True)
     image = models.ImageField(upload_to="mangas/covers/", blank=True, default="book-placeholder.jpeg")
     genre = models.ManyToManyField(Genre)
     author = models.ForeignKey(Author, on_delete=models.PROTECT, null=True, related_name="books")

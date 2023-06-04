@@ -19,7 +19,7 @@
                   {% if other_user.first_name %}
                   <h4>{{other_user.first_name}} {{other_user.last_name}}</h4>
                   {% endif %}
-                  <p class="text-muted font-size-sm">@{{other_user.username}}</p>
+                  <h3>@{{other_user.username}}</h3>
                   {% if other_user.country or other_user.city %}
                     <p ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                       <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
@@ -27,7 +27,7 @@
                     </p>
                   {% endif %}
                   <h4>
-                      <span class="badge text-bg-dark">Bookmarks<br>{{ other_user.follows_count }}</span>
+                      <span class="badge bg-dark">Bookmarks<br>{{ other_user.follows_count }}</span>
                   </h4>
                 </div>
               </div>
@@ -72,17 +72,104 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="p-3 bg-body rounded" style="max-width:820px;margin: 0 auto;">
-            <h6 class="border-bottom pb-2 mb-0">{{other_user.username}}'s Bookmarks</h6>
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-2 row-cols-xl-3 justify-content-start">
-              {% for manga in other_user.bookmarks.all %}
-                <div>
-                  <a href="{{ manga.get_manga_url }}"><img style="height: 250px; width: 200px;" class="rounded-5 p-2" src="{{ manga.image.url }}"></a>
+          <div class="container py-2 custom_tab_style1_outer">
+            <ul class="nav nav-pills mb-3 custom_tab_style1" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">{{other_user.username}}'s Bookmarks</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Comments</button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-2 row-cols-xl-3 justify-content-start">
+                {% for manga in other_user.bookmarks.all %}
                   <div>
-                    <p>{{manga.title}}</p>
+                    <a href="{{ manga.get_manga_url }}"><img style="height: 250px; width: 200px;" class="rounded-10 p-2" src="{{ manga.image.url }}"></a>
+                    <div>
+                      <p>{{manga.title}}</p>
+                    </div>
                   </div>
-                </div>
-              {% endfor %}
+                {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="col-lg-0">
+                <h5 class="pb-2 border-bottom" id="comment_count">
+                    {% if manga.comment_count == 0 %}
+                      no comments</h5>
+                    {% endif %}
+                    {% if manga.comment_count == 1 %}
+                      {{manga.comment_count}} comment</h5>
+                    {% endif %}
+                    {% if manga.comment_count > 1 %}
+                      {{manga.comment_count}} comments</h5>
+                    {% endif %}
+              <div class="post-wrap-message">
+              {% for comment in comments %}
+              {% if other_user == comment.user %}
+                  <div class="d-flex gap-3 py-2">
+                    <a href="{{ comment.user.get_user_url }}">
+                        {% if comment.user.avatar %}
+                        <img src="{{ comment.user.avatar.url }}" class="rounded-circle avatar_commentator">
+                        {% else %}
+                        <img src="{% static 'assets/avatar-placeholder.jpeg' %}" class="rounded-circle avatar_commentator">
+                        {% endif %}
+                    </a>
+                    <div class="flex-grow-1 justify-content-between">
+                    <div class="post-header-info">
+                      <a href="{{ comment.user.get_user_url }}" class="link-dark fw-bold" style="text-decoration: none">{{comment.user.username}}</a>&nbsp;
+                      <a href="{{ comment.manga.get_manga_url }}" class="link-dark fw-light" style="display: inline-block; text-decoration: none">for {{ comment.manga.title }}</a>
+                      {% if comment.chapter.manga.title %}
+                      <a class="link-dark fw-lighter" style="text-decoration: none; display: inline-block" href="{{ comment.chapter.get_chapter_url }}">for {{ comment.chapter.manga.title }}, ch.{{ comment.chapter.number }}</a>
+                      {% endif %}
+                      <p style="display: inline-block">{{ comment.created|timesince }} ago</p>
+                      <div class="list-group-item bg-body-tertiary rounded">
+                        <p style="text-align:justify; font-size:14px;margin:5px 0px 10px;color:#000000;">{{comment.content}}</p>
+                        <span class="position-absolute top-0 start-100 translate-middle rounded-pill btn-sm bg-light border border-1">
+                          <div class="d-flex justify-content-center align-items-center gap-1">
+                            <form action="{{comment.get_likecomment_url}}" method="post">
+                              <div class="likes">
+                              {% csrf_token %}
+                                  <button type="submit" class="like-button">
+                                      {% if user not in comment.likes.all %}
+                                      <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                      {% else %}
+                                      <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#EA4858" stroke="#EA4858" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                      {% endif %}
+                                      </button>
+                                  <div class="likes-count">{{comment.likes_count}}</div>
+                              </div>
+                          </form>
+                          </div>
+                        </span>
+                        </div>
+                    </div>
+                  </div>
+                  </div>
+                    <div class="d-flex align-items-end flex-column mb-3">
+                        {% if other_user == comment.user and user == other_user %}
+                          {% if comment.manga.title %}
+                            <form action="{% url 'manga-comment-delete' %}" method="post">
+                              {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
+                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                            {% endif %}
+                            {% if comment.chapter.manga.title %}
+                            <form action="{% url 'chapter-comment-delete' %}" method="post">
+                              {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
+                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              </div>
             </div>
           </div>
         </div>

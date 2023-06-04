@@ -24,19 +24,22 @@
                         <div class="list-group-item bg-body-tertiary rounded">
                           <p style="text-align:justify; font-size:14px;margin:5px 0px 10px;color:#000000;">{{comment.content}}</p>
                           <span class="position-absolute top-0 start-100 translate-middle rounded-pill btn-sm bg-light border border-1">
-                              <div class="d-flex justify-content-center align-items-center gap-1">
-                                <div>
-                                    <div class="likes">
+                            <div class="d-flex justify-content-center align-items-center gap-1">
+                              <form action="{{comment.get_likecomment_url}}" method="post">
+                                <div class="likes">
+                                {% csrf_token %}
+                                    <button type="submit" class="like-button">
                                         {% if user not in comment.likes.all %}
                                         <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                                         {% else %}
                                         <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#EA4858" stroke="#EA4858" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                                         {% endif %}
-                                        <div class="likes-count">{{comment.likes_count}}</div>
-                                    </div>
+                                        </button>
+                                    <div class="likes-count">{{comment.likes_count}}</div>
                                 </div>
-                              </div>
-                          </span>
+                            </form>
+                            </div>
+                        </span>
                          </div>
                       </div>
                     </div>
@@ -64,16 +67,19 @@
                                     <p style="text-align:justify; font-size:14px;margin:5px 0px 10px;color:#000000;">{{comment.content}}</p>
                                     <span class="position-absolute top-0 start-100 translate-middle rounded-pill btn-sm bg-light border border-1">
                                         <div class="d-flex justify-content-center align-items-center gap-1">
-                                            <div>
-                                                <div class="likes">
+                                          <form action="{{comment.get_likecomment_url}}" method="post">
+                                            <div class="likes">
+                                            {% csrf_token %}
+                                                <button type="submit" class="like-button">
                                                     {% if user not in comment.likes.all %}
                                                     <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                                                     {% else %}
                                                     <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#EA4858" stroke="#EA4858" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                                                     {% endif %}
-                                                    <div class="likes-count">{{comment.likes_count}}</div>
-                                                </div>
+                                                    </button>
+                                                <div class="likes-count">{{comment.likes_count}}</div>
                                             </div>
+                                        </form>
                                         </div>
                                     </span>
                                 </div>
@@ -87,7 +93,7 @@
                 <h5>Latest users</h5>
                 {% for sug_user in other_user %}
                 <div class="post-wrap suggestions">
-                    <div class="d-flex">
+                    <div class="d-flex py-2">
                         <a href="{{ sug_user.get_user_url }}">
                         {% if sug_user.avatar %}
                          <img src="{{ sug_user.avatar.url }}" class="rounded-circle avatar-suggestions">
