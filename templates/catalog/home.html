@@ -190,9 +190,7 @@
 </header>
 <div class="wrapper styled-scrollbars bg-dark" >
     {% for manga in newest %}
-    {% comment %} {% if manga.likes_count %} {% endcomment %}
-    <div style="height: 475px;"><a href="{{ manga.get_manga_url }}"><img href="#" class="imged pepe rounded-5" src="{{ manga.image.url }}" /></a></div>
-    {% comment %} {% endif %} {% endcomment %}
+        <div style="height: 475px;"><a href="{{ manga.get_manga_url }}"><img href="#" class="imged pepe rounded-10" src="{{ manga.image.url }}" /></a></div>
     {% endfor %}
 </div>
 {% endblock header %}

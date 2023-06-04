@@ -82,6 +82,8 @@ class MangaDetailView(TemplateView):
         total = len(chapter.values_list('number'))
         comments = MangaComment.objects.filter(manga=manga)
         liked = sorted(comments, key=lambda comment: comment.likes_count(), reverse=True)
+        recs = Manga.objects.filter(type=manga.type)
+        recs = recs.exclude(title=manga.title)[:5]
 
         if request.user.is_authenticated:
             mangas = Manga.objects.filter(title=title)
@@ -98,6 +100,7 @@ class MangaDetailView(TemplateView):
                 'mangas': mangas,
                 'comments': comments,
                 'liked': liked,
+                'recs': recs
             }
         else:
             params = {

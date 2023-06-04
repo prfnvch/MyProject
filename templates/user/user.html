@@ -75,14 +75,14 @@
           <div class="p-3 bg-body rounded" style="max-width:820px;margin: 0 auto;">
             <h6 class="border-bottom pb-2 mb-0">{{other_user.username}}'s Bookmarks</h6>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-2 row-cols-xl-3 justify-content-start">
-            {% for manga in other_user.bookmarks.all %}
-              <div>
-                <a href="{{ manga.get_manga_url }}"><img style="height: 250px; width: 200px;" class="rounded-5 p-2" src="{{ manga.image.url }}"></a>
+              {% for manga in other_user.bookmarks.all %}
                 <div>
-                  <p>{{manga.title}}</p>
+                  <a href="{{ manga.get_manga_url }}"><img style="height: 250px; width: 200px;" class="rounded-5 p-2" src="{{ manga.image.url }}"></a>
+                  <div>
+                    <p>{{manga.title}}</p>
+                  </div>
                 </div>
-              </div>
-            {% endfor %}
+              {% endfor %}
             </div>
           </div>
         </div>
