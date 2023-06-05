@@ -125,7 +125,7 @@
             {% if chapter.comment_count > 1 %}
               {{chapter.comment_count}} comments</h5>
             {% endif %}
-        <div class="post-wrap-message1 text-white">
+        <div class="post-wrap-message1 bg-dark-subtle text-black rounded-10">
             {% for comment in liked %}
             <div class="d-flex gap-3 py-2 border-bottom">
               <a href="{{ comment.user.get_user_url }}">
@@ -136,10 +136,10 @@
                 {% endif %}
               <div class="flex-grow-1 justify-content-between">
               <div class="post-header-info">
-                <a style="text-decoration: none" href="{{ comment.user.get_user_url }}" class="link-light">{{comment.user.username}}</a>&nbsp;
+                <a style="text-decoration: none" href="{{ comment.user.get_user_url }}" class="link-dark">{{comment.user.username}}</a>&nbsp;
                 <p style="display: inline-block">{{ comment.created|timesince }} ago</p>
                 <div class="list-group-item ">
-                  <p style="text-align:justify; font-size:14px;margin:5px 0px 10px;color:white;">{{comment.content}}</p>
+                  <p style="text-align:justify; font-size:14px;margin:5px 0px 10px;color:black;">{{comment.content}}</p>
                   <span class="position-absolute top-100 start-100 translate-middle rounded-pill btn-sm bg-light border border-1">
                       <div class="d-flex justify-content-center align-items-center gap-1">
                         <form action="{{comment.get_likecomment_url}}" method="post">

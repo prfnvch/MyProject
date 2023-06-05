@@ -166,7 +166,7 @@
                     <img src="{% static 'assets/avatar-placeholder.jpeg' %}" class="rounded-circle avatar_commentator">
                     {% endif %}
                 </a>
-                <div class="flex-grow-1 justify-content-between">
+                <div class="flex-grow-1">
                 <div class="post-header-info">
                   <a style="text-decoration: none" href="{{ comment.user.get_user_url }}" class="link-dark">{{comment.user.username}}</a>&nbsp;
                   <p style="display: inline-block">{{ comment.created|timesince }} ago</p>
@@ -193,13 +193,6 @@
                 </div>
               </div>
               </div>
-                {% comment %} <div class="d-flex align-items-end flex-column mb-3">{% if user == comment.user or user == post.user %}
-                    <form action="{% url 'comment-delete' %}" method="post">
-                      {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
-                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                    {% endif %}
-                  </div> {% endcomment %}
     
             {% endfor %}
           </div>

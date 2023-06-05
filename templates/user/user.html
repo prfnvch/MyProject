@@ -101,7 +101,7 @@
               <div class="post-wrap-message">
               {% for comment in comments %}
               {% if other_user == comment.user %}
-                  <div class="d-flex gap-3 py-2">
+                  <div class="d-flex gap-3 py-3 rounded-10" style="margin-bottom: 5%;">
                     <a href="{{ comment.user.get_user_url }}">
                         {% if comment.user.avatar %}
                         <img src="{{ comment.user.avatar.url }}" class="rounded-circle avatar_commentator">
@@ -111,9 +111,9 @@
                     </a>
                     <div class="flex-grow-1 justify-content-between">
                     <div class="post-header-info">
-                      <a href="{{ comment.user.get_user_url }}" class="link-dark fw-bold" style="text-decoration: none">{{comment.user.username}}</a>&nbsp;
+                      {% if comment.manga.title %}
                       <a href="{{ comment.manga.get_manga_url }}" class="link-dark fw-light" style="display: inline-block; text-decoration: none">for {{ comment.manga.title }}</a>
-                      {% if comment.chapter.manga.title %}
+                      {% elif comment.chapter.manga.title %}
                       <a class="link-dark fw-lighter" style="text-decoration: none; display: inline-block" href="{{ comment.chapter.get_chapter_url }}">for {{ comment.chapter.manga.title }}, ch.{{ comment.chapter.number }}</a>
                       {% endif %}
                       <p style="display: inline-block">{{ comment.created|timesince }} ago</p>
@@ -139,23 +139,27 @@
                         </div>
                     </div>
                   </div>
-                  </div>
-                    <div class="d-flex align-items-end flex-column mb-3">
-                        {% if other_user == comment.user and user == other_user %}
-                          {% if comment.manga.title %}
-                            <form action="{% url 'manga-comment-delete' %}" method="post">
-                              {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
-                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                            {% endif %}
-                            {% if comment.chapter.manga.title %}
-                            <form action="{% url 'chapter-comment-delete' %}" method="post">
-                              {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger btn-sm" >Delete</button>
-                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                          {% endif %}
+                  <div class="d-flex align-items-end flex-column mb-3">
+                    {% if other_user == comment.user and user == other_user %}
+                      {% if comment.manga.title %}
+                        <form action="{% url 'manga-comment-delete' %}" method="post">
+                          {% csrf_token %}
+                        <button type="submit" style="margin-left: 30%;" class="btn btn-outline-danger btn-sm" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bucket" viewBox="0 0 16 16">
+                          <path d="M2.522 5H2a.5.5 0 0 0-.494.574l1.372 9.149A1.5 1.5 0 0 0 4.36 16h7.278a1.5 1.5 0 0 0 1.483-1.277l1.373-9.149A.5.5 0 0 0 14 5h-.522A5.5 5.5 0 0 0 2.522 5zm1.005 0a4.5 4.5 0 0 1 8.945 0H3.527zm9.892 1-1.286 8.574a.5.5 0 0 1-.494.426H4.36a.5.5 0 0 1-.494-.426L2.58 6h10.838z"/>
+                        </svg></button>
+                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
                         {% endif %}
-                      </div>
+                        {% if comment.chapter.manga.title %}
+                        <form action="{% url 'chapter-comment-delete' %}" method="post">
+                          {% csrf_token %}
+                        <button type="submit" style="margin-left: 30%;" class="btn btn-outline-danger btn-sm" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bucket" viewBox="0 0 16 16">
+                          <path d="M2.522 5H2a.5.5 0 0 0-.494.574l1.372 9.149A1.5 1.5 0 0 0 4.36 16h7.278a1.5 1.5 0 0 0 1.483-1.277l1.373-9.149A.5.5 0 0 0 14 5h-.522A5.5 5.5 0 0 0 2.522 5zm1.005 0a4.5 4.5 0 0 1 8.945 0H3.527zm9.892 1-1.286 8.574a.5.5 0 0 1-.494.426H4.36a.5.5 0 0 1-.494-.426L2.58 6h10.838z"/>
+                        </svg></button>
+                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                  </div>
                 {% endif %}
                 {% endfor %}
               </div>
