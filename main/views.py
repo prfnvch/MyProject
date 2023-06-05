@@ -20,7 +20,7 @@ class MainView(TemplateView):
     def get(self, request):
         mangas = Manga.objects.all().order_by('-created')
         liked = sorted(mangas, key=lambda manga: manga.rating_count(), reverse=True)
-        other_user = User.objects.all().order_by('-date_joined')[:5]
+        other_user = User.objects.all().order_by('-date_joined')[:7]
         manga_comments = MangaComment.objects.all()
         manga_liked = sorted(manga_comments, key=lambda comment: comment.likes_count(), reverse=True)[:5]
         chapter_comments = ChapterComment.objects.all()
@@ -83,7 +83,7 @@ class MangaDetailView(TemplateView):
         total = len(chapter.values_list('number'))
         comments = MangaComment.objects.filter(manga=manga)
         liked = sorted(comments, key=lambda comment: comment.likes_count(), reverse=True)
-        recs = Manga.objects.filter(type=manga.type)
+        recs = Manga.objects.filter(type=manga.type).order_by('?')
         recs = recs.exclude(title=manga.title)[:5]
 
         if request.user.is_authenticated:

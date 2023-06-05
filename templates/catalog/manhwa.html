@@ -85,10 +85,16 @@
                             {% endif %}
                         </form>
                         <div class="manga-form1">
-                            <ul class="list-inline rating-list">
-                              <span class="fa fa-star {% if manga.average_rating > 0 or manga.average_rating > 0.5 %} checked {% endif %}"></span>
-                            </ul>
-                            <span class="text-white fw-bold">{{ manga.average_rating|floatformat:"-2" }}</span>
+                            {% if manga.average_rating == 5 or manga.average_rating == 4 or manga.average_rating == 3 or manga.average_rating == 2 or manga.average_rating == 1 or manga.average_rating == 0 %}
+                            <div class="bg-black rounded-5" style="width: 35px; height: 25px;">
+                            {% else %}
+                            <div class="bg-black rounded-5" style="width: 55px; height: 25px;">
+                            {% endif %}
+                                <ul class="list-inline rating-list">
+                                    <span class="fa fa-star {% if manga.average_rating > 0 or manga.average_rating > 0.5 %} checked {% endif %}"></span>
+                                </ul>
+                                <span class="text-white fw-bold">{{ manga.average_rating|floatformat:"-2" }}</span>
+                            </div>
                         </div>
                         <div class="card-body p-3">
                             <div class="text-center">

@@ -49,7 +49,7 @@
               <a href="#" class="btn btn-outline-light mt-auto dropdown-toggle" role="button" data-bs-toggle="dropdown">{{chapter.number}}</a>
               <ul class="dropdown-menu element styled-scrollbars" style="height: 120px; overflow-y: scroll;">
                 {% for chapter in chapters %}
-                <li><a class="dropdown-item" href="{{ chapter.get_chapter_url }}">{{ chapter.number }} : {{ chapter.name }}</a></li>
+                <li><a class="dropdown-item" href="{{ chapter.get_chapter_url }}">{{ chapter.number }}</a></li>
                 {% endfor %}
               </ul>
             </div>

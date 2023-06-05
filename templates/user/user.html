@@ -98,16 +98,6 @@
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               <div class="col-lg-0">
-                <h5 class="pb-2 border-bottom" id="comment_count">
-                    {% if manga.comment_count == 0 %}
-                      no comments</h5>
-                    {% endif %}
-                    {% if manga.comment_count == 1 %}
-                      {{manga.comment_count}} comment</h5>
-                    {% endif %}
-                    {% if manga.comment_count > 1 %}
-                      {{manga.comment_count}} comments</h5>
-                    {% endif %}
               <div class="post-wrap-message">
               {% for comment in comments %}
               {% if other_user == comment.user %}

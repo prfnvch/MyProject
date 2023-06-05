@@ -24,7 +24,9 @@
         <div class="p-4 p-md-5 mb-4 rounded text-white bg-black container sticky-top">
           <div class="position-relative align-items-center">
             {% if chapter.number > 0 %}
-              {% if chapter.manga.type == "Manga" %}
+              {% if chapter.manga.type == "Manga" and chapter.number == 1 %}
+              <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
+              {% elif chapter.name == "Prologue" and chapter.number == 1 %}
               <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.manga.get_manga_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
               {% else %}
               <div class="position-absolute top-50 start-0 translate-middle-y"><a href="{{ chapter.get_previous_chapter_url }}" class="btn btn-outline-light mt-auto">Previous</a></div>
@@ -56,7 +58,7 @@
               <a href="#" class="btn btn-outline-light mt-auto dropdown-toggle" role="button" data-bs-toggle="dropdown">{{chapter.number}}</a>
               <ul class="dropdown-menu element styled-scrollbars" style="height: 120px; overflow-y: scroll;">
                 {% for chapter in chapters %}
-                <li><a class="dropdown-item" href="{{ chapter.get_chapter_url }}">{{ chapter.number }} : {{ chapter.name }}</a></li>
+                <li><a class="dropdown-item" href="{{ chapter.get_chapter_url }}">{{ chapter.number }}</a></li>
                 {% endfor %}
               </ul>
             </div>
@@ -127,8 +129,8 @@
             {% for comment in liked %}
             <div class="d-flex gap-3 py-2 border-bottom">
               <a href="{{ comment.user.get_user_url }}">
-                {% if user.avatar %}
-                <img src="{{ user.avatar.url }}" class="rounded-circle avatar_commentator">
+                {% if comment.user.avatar %}
+                <img src="{{ comment.user.avatar.url }}" class="rounded-circle avatar_commentator">
                 {% else %}
                 <img src="{% static 'assets/avatar-placeholder.jpeg' %}" class="rounded-circle avatar_commentator">
                 {% endif %}
