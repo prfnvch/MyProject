@@ -81,7 +81,7 @@
     <section>
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                {% for manga in liked %}
+                {% for manga in mangas %}
                     <div class="col mb-5" style="width: 350px; margin-left: 2%; margin-right: 2%;">
                         <div class="card h-100" style="width: 350px;">
                             <img class="card-img-top" style="height: 487px; width: 350px;" src="{{ manga.image.url }}" />
@@ -150,13 +150,8 @@
                         </div>
                     </div>
                 {% endfor %}
-
             </div>
         </div>
     </section>
 </div>
 {% endblock content %}
-
-{% block header %}
-
-{% endblock header %}
