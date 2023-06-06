@@ -219,9 +219,8 @@
             <h4 class="fst-italic py-4">
               {% for manga in recs %}
                 <div>
-                  <a href="{{ manga.get_manga_url }}"><img style="height: 250px; width: 200px;" class="rounded-10 p-2" src="{{ manga.image.url }}"></a>
-                  <div>
-                    <p>{{manga.title}}</p>
+                  <div class="border w-75" style="margin-top: 2%;">
+                    <a href="{{ manga.get_manga_url }}"><img style="height: 250px; width: 200px;" class="rounded-10 p-2" src="{{ manga.image.url }}"></a>{{manga.title}}
                   </div>
                 </div>
               {% endfor %}

@@ -222,7 +222,7 @@ class ManhwaListView(TemplateView):
         genres = Genre.objects.all()
 
         params = {
-            "manhwas": manhwas,
+            "mangas": manhwas,
             'genres': genres,
             
         }
@@ -253,7 +253,7 @@ class ManhuaListView(TemplateView):
         genres = Genre.objects.all()
 
         params = {
-            "manhuas": manhuas,
+            "mangas": manhuas,
             'genres': genres,
         }
 
@@ -367,7 +367,7 @@ class ManhwaFilterView(TemplateView):
                         manga_by_all = manga_by_all.intersection(manga_of_loop)
 
             params = {
-                'manhwas': manga_by_all,
+                'mangas': manga_by_all,
                 'genres': genres,
             }
 
@@ -376,7 +376,7 @@ class ManhwaFilterView(TemplateView):
             genres = Genre.objects.all()
 
             params = {
-                'manhwas': mangas,
+                'mangas': mangas,
                 'genres': genres,
             }
 
@@ -407,7 +407,7 @@ class ManhuaFilterView(TemplateView):
                         manga_by_all = manga_by_all.intersection(manga_of_loop)
 
             params = {
-                'manhuas': manga_by_all,
+                'mangas': manga_by_all,
                 'genres': genres,
             }
 
@@ -416,7 +416,7 @@ class ManhuaFilterView(TemplateView):
             genres = Genre.objects.all()
 
             params = {
-                'manhuas': mangas,
+                'mangas': mangas,
                 'genres': genres,
             }
 
