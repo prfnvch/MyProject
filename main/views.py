@@ -436,16 +436,16 @@ class SearchView(TemplateView):
             manga_by_title = Manga.objects.filter(title__iregex=keyword)
             manga_by_status = Manga.objects.filter(status__iregex=keyword)
             manga_by_type = Manga.objects.filter(type__iregex=keyword)
-            # manga_by_genre = Manga.objects.filter(getGenre__iregex=keyword)
-            manga_by_all = manga_by_title.union(manga_by_status, manga_by_type)
+            manga_by_genre = Manga.objects.filter(genre__name__iregex=keyword)
+            manga_by_all = manga_by_title.union(manga_by_status, manga_by_type, manga_by_genre)
 
             if len(search_list) > 0:
                 for keyword in search_list:
                     manga_by_title = Manga.objects.filter(title__iregex=keyword)
                     manga_by_status = Manga.objects.filter(status__iregex=keyword)
                     manga_by_type = Manga.objects.filter(type__iregex=keyword)
-                    # manga_by_genre = Manga.objects.filter(genre__iregex=keyword)
-                    manga_of_loop = manga_by_title.union(manga_by_status, manga_by_type)
+                    manga_by_genre = Manga.objects.filter(genre__name__iregex=keyword)
+                    manga_of_loop = manga_by_title.union(manga_by_status, manga_by_type, manga_by_genre)
                     manga_by_all = manga_by_all.union(manga_of_loop)
 
             caption = f'Search results for "{search}":' if manga_by_all else f'Your search - {search} - did not match any titles.'
